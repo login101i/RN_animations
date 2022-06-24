@@ -31,88 +31,6 @@ const data = Object.keys(images).map((i) => ({
 
 const scrollX = React.useRef(new Animated.Value(0)).current;
 
-const Indicator = ({ measures, scrollX }) => {
-	const inputRange = data.map((_, i) => i * width);
-
-	const indicatorWidth = scrollX.interpolate({
-		inputRange,
-		outputRange: measures.map((measure) => measure.width)
-	});
-	const translateX = scrollX.interpolate({
-		inputRange,
-		outputRange: measures.map((measure) => measure.x)
-	});
-
-	return (
-		<Animated.View
-			style={{
-				position: "absolute",
-				height: 4,
-				// width: measures[0].width,
-				width: indicatorWidth,
-				transform: translateX,
-				backgroundColor: "white",
-				bottom: -10
-			}}
-		></Animated.View>
-	);
-};
-
-const Tab = React.forwardRef(({ item, onItemPress }, ref) => {
-	return (
-		<TouchableOpacity onPress={onItemPress}>
-			<View ref={ref}>
-				<Text style={{ color: "white", fontSize: 86 / data.length }}>
-					{item.title}
-				</Text>
-			</View>
-		</TouchableOpacity>
-	);
-});
-
-const Tabs = ({ scrollX, data, onItemPress }) => {
-	const [measures, setMeasures] = React.useState([]);
-	const containerRef = React.useRef();
-
-	React.useEffect(() => {
-		let m = [];
-		data.forEach((item) => {
-			item.ref.curent.measureLayout(
-				containerRef.current,
-				(x, y, width, height) => {
-					m.push({ x, y });
-
-					if (m.length === data.length) {
-						setMeasures(m);
-					}
-				}
-			);
-		});
-	});
-
-	console.log(measures);
-
-	return (
-		<View style={{ position: "absolute", top: 100, width }}>
-			<View
-				style={{ justifyContent: "space-evenly", flexDirection: "row" }}
-				ref={containerRef}
-			>
-				{data.map((item) => {
-					return (
-						<Tab
-							item={item}
-							key={item.key}
-							ref={item.ref}
-							onItemPress={onItemPress}
-						/>
-					);
-				})}
-			</View>
-		</View>
-	);
-};
-
 const AnimatedTabs = () => {
 	const ref = React.useRef();
 	const onItemPress = React.useCallback((itemIndex) => {
@@ -120,6 +38,89 @@ const AnimatedTabs = () => {
 			offset: indeINdex * width
 		});
 	});
+
+	const Indicator = ({ measures, scrollX }) => {
+		const inputRange = data.map((_, i) => i * width);
+
+		const indicatorWidth = scrollX.interpolate({
+			inputRange,
+			outputRange: measures.map((measure) => measure.width)
+		});
+		const translateX = scrollX.interpolate({
+			inputRange,
+			outputRange: measures.map((measure) => measure.x)
+		});
+
+		return (
+			<Animated.View
+				style={{
+					position: "absolute",
+					height: 4,
+					// width: measures[0].width,
+					width: indicatorWidth,
+					transform: translateX,
+					backgroundColor: "white",
+					bottom: -10
+				}}
+			></Animated.View>
+		);
+	};
+
+	const Tab = React.forwardRef(({ item, onItemPress }, ref) => {
+		return (
+			<TouchableOpacity onPress={onItemPress}>
+				<View ref={ref}>
+					<Text style={{ color: "white", fontSize: 86 / data.length }}>
+						{item.title}
+					</Text>
+				</View>
+			</TouchableOpacity>
+		);
+	});
+
+	const Tabs = ({ scrollX, data, onItemPress }) => {
+		const [measures, setMeasures] = React.useState([]);
+		const containerRef = React.useRef();
+
+		React.useEffect(() => {
+			let m = [];
+			data.forEach((item) => {
+				item.ref.curent.measureLayout(
+					containerRef.current,
+					(x, y, width, height) => {
+						m.push({ x, y });
+
+						if (m.length === data.length) {
+							setMeasures(m);
+						}
+					}
+				);
+			});
+		});
+
+		console.log(measures);
+
+		return (
+			<View style={{ position: "absolute", top: 100, width }}>
+				<View
+					style={{ justifyContent: "space-evenly", flexDirection: "row" }}
+					ref={containerRef}
+				>
+					{data.map((item) => {
+						return (
+							<Tab
+								item={item}
+								key={item.key}
+								ref={item.ref}
+								onItemPress={onItemPress}
+							/>
+						);
+					})}
+				</View>
+			</View>
+		);
+	};
+
 	return (
 		<View style={styles.container}>
 			<StatusBar hidden />
@@ -133,7 +134,7 @@ const AnimatedTabs = () => {
 				bounces={false}
 				onScroll={Animated.event([
 					{ nativeElement: { contentOffset: { x: scrollX } } },
-					{ useNatidriver: false }
+					{ useNativedriver: false }
 				])}
 				renderItem={({ item }) => {
 					return (

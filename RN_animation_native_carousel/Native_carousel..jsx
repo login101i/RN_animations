@@ -83,7 +83,7 @@ export default () => {
 					/>
 				</View>
 			</View>
-			<BottomSheet snapPoints={[height - ITEM, height]} initialSnapIndex={0}>
+			<sBottomSheet snapPoints={[height - ITEM_HEIGHT, height]} initialSnapIndex={0}>
 				<BottomSheetScrollView
 					style={{ background: "white" }}
 					contentContainerStyle={{ padding: 20 }}
@@ -103,7 +103,7 @@ export default () => {
 						);
 					})}
 				</BottomSheetScrollView>
-			</BottomSheet>
+			</sBottomSheet>
 		</View>
 	);
 };
