@@ -32,10 +32,12 @@ const data = Object.keys(images).map((i) => ({
 const scrollX = React.useRef(new Animated.Value(0)).current;
 
 const AnimatedTabs = () => {
+	const [measures, setMeasures] = React.useState([]);
+
 	const ref = React.useRef();
 	const onItemPress = React.useCallback((itemIndex) => {
 		ref?.current?.scrollToOffset({
-			offset: indeINdex * width
+			offset: itemIndex * width
 		});
 	});
 
@@ -79,13 +81,12 @@ const AnimatedTabs = () => {
 	});
 
 	const Tabs = ({ scrollX, data, onItemPress }) => {
-		const [measures, setMeasures] = React.useState([]);
 		const containerRef = React.useRef();
 
 		React.useEffect(() => {
 			let m = [];
 			data.forEach((item) => {
-				item.ref.curent.measureLayout(
+				item.ref.current.measureLayout(
 					containerRef.current,
 					(x, y, width, height) => {
 						m.push({ x, y });

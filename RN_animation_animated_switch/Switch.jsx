@@ -4,33 +4,34 @@ import { MotiView } from "@motify/components";
 import { Easing } from "react-native-reanimated";
 
 export default function App() {
-	const useState = ([isActive, setIsActive] = useState(true));
+	const [isActive, setIsActive] = useState(true);
 	const _colors = {
 		isActive: "orange",
 		isInActive: "grey"
 	};
-	const trackWidth = React.useMemo(() => {
-		return size * 1.5;
-	}, [size]);
-	const trackHeight = React.useMemo(() => {
-		return size * 0.6;
-	}, [size]);
-	const knobSize = React.useMemo(() => {
-		return size * 0.6;
-	}, [size]);
 
-	const transition = {
-		type: "timing",
-		duration: 300,
-		easeing: Easing.out(Easing.ease)
-	};
-	const Switch = ({ size, isAcitve, onPress }) => {
+	const Switch = ({ size, isActive, onPress }) => {
+		const trackWidth = React.useMemo(() => {
+			return size * 1.5;
+		}, [size]);
+		const trackHeight = React.useMemo(() => {
+			return size * 0.6;
+		}, [size]);
+		const knobSize = React.useMemo(() => {
+			return size * 0.6;
+		}, [size]);
+
+		const transition = {
+			type: "timing",
+			duration: 300,
+			easing: Easing.out(Easing.ease)
+		};
 		return (
-			<Pressable onPress={onPress(!isAcive)}>
+			<Pressable onPress={onPress}>
 				<View style={{ alignItems: "center", justifyContent: "center" }}>
 					<MotiView
 						animate={{
-							backgroundColor: isActive ? _colors.isActive : isInActive
+							backgroundColor: isActive ? _colors.isActive : _colors.isInActive
 						}}
 						transition={transition}
 						style={{
@@ -42,7 +43,7 @@ export default function App() {
 					/>
 					<MotiView
 						animate={{
-							translateX: isActive ? trackWith / 4 : -trackWidth / 4
+							translateX: isActive ? trackWidth / 4 : -trackWidth / 4
 						}}
 						transition={transition}
 						style={{
@@ -56,11 +57,11 @@ export default function App() {
 					>
 						<MotiView
 							from={{
-								width: isActive ? 0 : knobSise
+								width: isActive ? 0 : knobSize
 							}}
 							animate={{
-								translateX: isActive ? trackWith / 4 : -trackWidth / 4,
-                borderColor:isAcitve ? _colors.isActive : _colors.isInActive
+								translateX: isActive ? trackWidth / 4 : -trackWidth / 4,
+								borderColor: isActive ? _colors.isActive : _colors.isInActive
 							}}
 							style={{
 								width: knobSize,

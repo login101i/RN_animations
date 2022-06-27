@@ -1,5 +1,5 @@
 import {
-	Easing,
+	// Easing,
 	StyleSheet,
 	TextInput,
 	View,
@@ -7,6 +7,8 @@ import {
 	Animated
 } from "react-native";
 import React from "react";
+import { Easing } from "react-native-reanimated";
+
 import Svg, { G, Circle, Rect } from "react-native-svg";
 
 export default function Donut({
@@ -19,7 +21,7 @@ export default function Donut({
 	textColor,
 	max = 100
 }) {
-	const AnimatedCirle = Animated.createAnimatedComponent(Circle);
+	const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 	const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);
 
 	const animated = React.useRef(new Animated.Value(0)).current;
@@ -79,10 +81,9 @@ export default function Donut({
 				height={radius * 2}
 				width={radius * 2}
 				viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}
-				
 			>
 				<G rotation="0" origin={`${halfCircle}, ${halfCircle}`}>
-					<Circle
+					<AnimatedCircle
 						ref={circleRef}
 						cx="50%"
 						cy="50%"
@@ -94,7 +95,7 @@ export default function Donut({
 						strokeDashoffset={circumference}
 						strokeDasharray={circumference}
 					/>
-					<Circle
+					<AnimatedCircle
 						cx="50%"
 						cy="50%"
 						r={radius}

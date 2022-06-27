@@ -34,7 +34,7 @@ const product = {
 	price: "29.99£"
 };
 
-export default () => {
+const NativeCarousel = () => {
 	const scrollY = React.useRef(Animated.Value(0)).current;
 	return (
 		<View style={{ flex: 1 }}>
@@ -55,6 +55,7 @@ export default () => {
 						{ useNativeDriver: true }
 					)}
 				/>
+
 				<View style={styles.container}>
 					{images.map((_, index) => {
 						return (
@@ -63,27 +64,25 @@ export default () => {
 							</View>
 						);
 					})}
+
 					<View
 						style={[
 							styles.dotIndicator,
+
 							{
-								transform: [
-									{
-										tranlateY: Animated.divide(
-											scrollY,
-											ITEM_HEIGHT
-										).interpolate({
-											inputRange: [0, 1],
-											outputRange: [0, DOT_INDICATOR_SIZE]
-										})
-									}
-								]
+								translateY: Animated.divide(scrollY, ITEM_HEIGHT).interpolate({
+									inputRange: [0, 1],
+									outputRange: [0, DOT_INDICATOR_SIZE]
+								})
 							}
 						]}
 					/>
 				</View>
 			</View>
-			<sBottomSheet snapPoints={[height - ITEM_HEIGHT, height]} initialSnapIndex={0}>
+			<BottomSheet
+				snapPoints={[height - ITEM_HEIGHT, height]}
+				initialSnapIndex={0}
+			>
 				<BottomSheetScrollView
 					style={{ background: "white" }}
 					contentContainerStyle={{ padding: 20 }}
@@ -103,7 +102,7 @@ export default () => {
 						);
 					})}
 				</BottomSheetScrollView>
-			</sBottomSheet>
+			</BottomSheet>
 		</View>
 	);
 };
@@ -116,7 +115,7 @@ const styles = StyleSheet.create({
 	},
 
 	container: {
-		position: "aboslute",
+		position: "absolute",
 		top: ITEM_HEIGHT / 2,
 		left: 30
 	},
@@ -138,3 +137,5 @@ const styles = StyleSheet.create({
 		left: -DOT_SIZE / 2
 	}
 });
+
+export default NativeCarousel;
